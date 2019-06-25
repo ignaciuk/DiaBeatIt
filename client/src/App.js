@@ -10,6 +10,50 @@ import RecipeFinder from "./pages/RecipeFinder";
 import HealthCard from "./pages/HealthCard";
 import Resources from "./pages/Resources";
 import Contact from "./pages/Contact";
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
+
+Amplify.configure(awsconfig);
+
+const signUpConfig = {
+  header: 'My Customized Sign Up',
+  hideAllDefaults: true,
+  defaultCountryCode: '1',
+  signUpFields: [
+    {
+      label: 'Email',
+      key: 'username',
+      required: true,
+      displayOrder: 1,
+      type: 'string'
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      displayOrder: 2,
+      type: 'password'
+    },
+    {
+      label: 'PhoneNumber',
+      key: 'phone_number',
+      required: true,
+      displayOrder: 3,
+      type: 'string'
+    },
+    {
+      label: 'Custom Attribute',
+      key: 'custom_attr',
+      required: false,
+      displayOrder: 4,
+      type: 'string',
+      custom: true
+    }
+  ]
+};
+
+// const usernameAttributes = 'Email';
 
 function App() {
   return (
@@ -36,4 +80,4 @@ function App() {
 
 //  render={() => (<CalorieEntryEdit calorieData={"Hello There"}/>)}
 
-export default App;
+export default withAuthenticator(App, { signUpConfig, includeGreetings: true });
