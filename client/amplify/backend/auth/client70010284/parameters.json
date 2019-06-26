@@ -31,10 +31,15 @@
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
+        "family_name",
+        "given_name",
         "email"
     ],
     "userpoolClientReadAttributes": [
-        "email"
+        "email",
+        "family_name",
+        "given_name",
+        "email_verified"
     ],
     "mfaLambdaRole": "client70010284_totp_lambda_role",
     "mfaLambdaLogPolicy": "client70010284_totp_lambda_log_policy",
@@ -43,7 +48,7 @@
     "userpoolClientLambdaRole": "client70010284_userpoolclient_lambda_role",
     "userpoolClientLogPolicy": "client70010284_userpoolclient_lambda_log_policy",
     "userpoolClientLambdaPolicy": "client70010284_userpoolclient_lambda_iam_policy",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "resourceName": "client70010284",
     "authSelections": "identityPoolAndUserPool",
     "authRoleName": {
@@ -67,5 +72,6 @@
     "useDefault": "default",
     "usernameAttributes": [
         "email"
-    ]
+    ],
+    "hostedUI": true
 }

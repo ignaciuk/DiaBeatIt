@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Splash from "./pages/Splash";
 import MainMenu from "./pages/MainMenu";
@@ -10,9 +10,10 @@ import RecipeFinder from "./pages/RecipeFinder";
 import HealthCard from "./pages/HealthCard";
 import Resources from "./pages/Resources";
 import Contact from "./pages/Contact";
-import Amplify from 'aws-amplify';
+import Amplify, { Hub } from 'aws-amplify'
 import awsconfig from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
+import BackgroundImage from "./components/BackgroundImage";
 
 Amplify.configure(awsconfig);
 
@@ -55,10 +56,24 @@ const signUpConfig = {
 
 // const usernameAttributes = 'Email';
 
-function App() {
+function App(props) {
+  useEffect(() => {
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      console.log('A new auth event has happened: ', data)
+       if (payload.event === 'signIn') {
+         console.log('a user has signed in!')
+       }
+       if (payload.event === 'signOut') {
+         console.log('a user has signed out!')
+       }
+       localStorage.setItem("username", payload.data.attributes.email)
+    })
+  }, [])
   return (
     <Router>
       <div>
+        {/* <Splash /> */}
         <Switch>
           <Route exact path="/" component={Splash} />
           <Route exact path="/MainMenu" component={MainMenu} />
